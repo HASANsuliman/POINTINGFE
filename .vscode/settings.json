@@ -1,0 +1,23 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.tabWidth": 2,
+  "prettier.useTabs": false,
+  "prettier.singleQuote": true,
+  "prettier.useEditorConfig": true,
+  "prettier.trailingComma": "es5",
+  "prettier.endOfLine": "lf",
+  "prettier.bracketSameLine": false,
+  "prettier.printWidth": 80,
+  "prettier.withNodeModules": false,
+  "prettier.vueIndentScriptAndStyle": true,
+  "prettier.jsxSingleQuote": true,
+  "prettier.bracketSpacing": false,
+  "prettier.arrowParens": "avoid",
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
+}

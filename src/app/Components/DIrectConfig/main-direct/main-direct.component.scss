@@ -1,0 +1,39 @@
+mat-form-field {
+  padding: 10px;
+}
+
+mat-card-actions {
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+// :host ::ng-deep .card .mat-form-field-flex{
+//   background: #ced8dcdb !important;
+// }
+button {
+  transition: 0.5s;
+}
+button:hover {
+  // letter-spacing: 2px;
+  box-shadow: 0 0 10px #37474f;
+}
+table {
+  width: 100%;
+}
+.cardheader {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+h3 {
+  padding-left: 20px;
+  font-style: italic;
+  font-weight: bold;
+}

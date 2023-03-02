@@ -1,0 +1,41 @@
+
+    <mat-card>
+        <mat-card-title> Edit Plan <span >{{TitlePlan| date: "MM-YYYY" }}</span></mat-card-title>
+        <mat-divider></mat-divider>
+
+        <mat-card-content>
+            <form [formGroup]="Editform" (submit)="onsubmit()">
+                <!-- <mat-form-field appearance="outline">
+                    <mat-label>Id</mat-label>
+                    <input  matInput [value]="Id" formControlName="id" name="id" />
+                </mat-form-field> -->
+                <mat-form-field appearance="outline" >
+                    <mat-label>Plan</mat-label>
+                    <input matInput   [matDatepicker]="dp" formControlName="Month" name="Month" />
+                    <mat-hint>MM/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="dp" ></mat-datepicker-toggle>
+                    <mat-datepicker #dp startView="multi-year" (monthSelected)="setMonthAndYear($event, dp)"
+                        panelClass="example-month-picker" >
+                    </mat-datepicker>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Point Price</mat-label>
+                    <input type="number" matInput formControlName="PointPrice" name="PointPrice" />
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Minimum Value</mat-label>
+                    <input type="number" matInput formControlName="MinValue" name="MinValue" />
+                </mat-form-field>
+
+                <br />
+
+                <mat-card-actions>
+                    <div mat-dialog-actions>
+                        <button mat-button mat-raised-button mat-dialog-close color="accent">Close</button>
+                        <span class="example-spacer"></span>
+                        <button mat-button mat-raised-button type="submit" color="primary" >Update</button>
+                      </div>
+                </mat-card-actions>
+            </form>
+        </mat-card-content>
+    </mat-card>

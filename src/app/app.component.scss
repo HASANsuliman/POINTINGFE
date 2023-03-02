@@ -1,0 +1,70 @@
+.example-container {
+  width: 100%;
+  height: 93.5%;
+}
+
+mat-drawer {
+  width: 15%;
+  background: #ffffff;
+  //background: #880e4f;
+}
+mat-drawer-content {
+  //background: url(../assets/Img/88.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+/* Add some content at the bottom of the video/page */
+.example-spacer {
+  flex: 1 1 auto;
+}
+.avtar {
+  background-color: #335353;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  margin-left: 10px;
+}
+span {
+  font-size: 20px;
+  margin: 15px;
+}
+mat-toolbar {
+  // box-shadow: 0 3px 5px -1px #0003, 0 6px 10px #00000024, 0 1px 18px #0000001f;
+  // background:#f06292ad   !important;
+  color: #1d2a32 !important;
+  box-shadow: 0px 16px 12px 5px #0003, -1px 16px 10px 20px #00000024, 1px 20px 20px 14px #0000001f;
+  //#7e7bb9  9f68a9  880e4f
+  // color: white!important;
+  //coral
+  // background: linear-gradient(45deg, #2b0a52e6, #2b195cbf);
+  //   background: linear-gradient(45deg, rgb(178 139 240), rgba(43, 25, 92, 0.7490196078));
+}
+::ng-deep .mat-select-arrow {
+  opacity: 0;
+}
+mat-form-field {
+  width: 20px;
+  //margin-right: 50px;
+}
+::ng-deep .mat-form-field-underline {
+  height: 0px !important;
+}
+mat-form-field mat-icon {
+  width: 35px;
+  height: 35px;
+  padding-top: 36px;
+}
+button mat-icon {
+  font-size: 25px;
+}
+mat-option mat-icon {
+  color: #607d8b !important;
+}

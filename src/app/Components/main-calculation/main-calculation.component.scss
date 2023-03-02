@@ -1,0 +1,56 @@
+.mat-stepper-horizontal {
+  margin-top: 8px;
+}
+
+.mat-form-field {
+  margin-top: 16px;
+}
+.example-spacer {
+  flex: 1 1 auto;
+}
+mat-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  flex-direction: row;
+  margin: 15px;
+}
+.step {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+}
+.mainexel {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+// .excelsend {
+//   // width: 35%;
+// }
+// // .excel1 {
+// //   // width: 55%;
+// // }
+.emoty {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  // padding-top: 135px;
+}
+.excelsend form mat-form-field {
+  //width: 25% !important;
+  margin: 0;
+}
+.fg {
+  height: 58px;
+}

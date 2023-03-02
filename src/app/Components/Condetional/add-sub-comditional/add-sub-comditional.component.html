@@ -1,0 +1,162 @@
+<form [formGroup]="subDirectsalesform" (submit)="onsubmit()">
+  <div class="main1">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Plan</mat-label>
+      <input matInput formControlName="Month" name="Month" />
+    </mat-form-field>
+    <!--           
+            <mat-form-field appearance="outline">
+              <mat-label>PlanId</mat-label>
+              <input matInput [value]="id?id:''" disabled>
+            </mat-form-field> -->
+    <!-- <mat-form-field   appearance="outline">
+              <mat-label>Plan</mat-label>
+              <input     matInput   formControlName="Month"  name="Month" [value]="TitlePlan|date :'MM-YYYY'"  />
+            </mat-form-field> -->
+    <mat-form-field appearance="outline">
+      <mat-label>Plan Id</mat-label>
+      <input matInput formControlName="PlanId" name="PlanId" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>SubConfig Id</mat-label>
+      <input matInput formControlName="SubConfigId" name="SubConfigId" />
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="outline">
+      <mat-label>DateFrom</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="DateFrom" name="DateFrom">
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>DateTo</mat-label>
+      <input matInput [matDatepicker]="pickerf" formControlName="DateTo" name="DateTo">
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="pickerf"></mat-datepicker-toggle>
+      <mat-datepicker #pickerf></mat-datepicker>
+    </mat-form-field> <br>
+    <app-progress-bar></app-progress-bar>
+    <mat-form-field appearance="outline">
+      <mat-label>Region</mat-label>
+      <mat-select formControlName="REGION" name="REGION" (selectionChange)=" getCity()">
+        <!-- <mat-option value="All">
+            All
+          </mat-option> -->
+        <mat-option *ngFor="let reg of region|async" [value]="reg">
+          {{reg}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>City</mat-label>
+      <mat-select formControlName="CITY" name="CITY" (selectionChange)=" getZone()">
+        <!-- <mat-option value="All">
+            All
+          </mat-option>-->
+        <mat-option *ngFor="let reg of city|async" [value]="reg">
+          {{reg}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Zone</mat-label>
+      <mat-select formControlName="ZONE" name="ZONE" (selectionChange)=" getArea()">
+        <!-- <mat-option value="All">
+            All
+          </mat-option> -->
+        <mat-option *ngFor="let reg of zone|async" [value]="reg">
+          {{reg}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline">
+      <mat-label>Area</mat-label>
+      <mat-select formControlName="AREA" name="AREA" (selectionChange)="getSubArea()">
+
+        <mat-option *ngFor="let reg of Area|async" [value]="reg">
+          {{reg}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>SubArea</mat-label>
+      <mat-select formControlName="SUBAREA" name="SUBAREA" (selectionChange)="getSubdealr()">
+
+        <mat-option *ngFor="let reg of SubArea|async" [value]="reg">
+          {{reg}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>SubDealer</mat-label>
+      <mat-select formControlName="SUBDEALER" name="SUBDEALER">
+
+        <mat-option *ngFor="let reg of subDealer|async" [value]="reg">
+          {{reg}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+  </div>
+
+
+  <ng-container formArrayName="subConfigs">
+    <h3>Add Extra Points for First recharge</h3>
+
+    <ng-container *ngFor="let config of Ranges['controls']; let in = index" [formGroupName]="in">
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>RangeId</mat-label>
+
+          <input matInput formControlName="RangeId" name="RangeId" />
+
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>From</mat-label>
+
+          <input type="number" min="0" matInput formControlName="RangeFrom" name="RangeFrom" />
+
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>To</mat-label>
+
+          <input type="number" min="0" matInput formControlName="RangeTo" name="RangeTo">
+
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Point</mat-label>
+
+          <input type="number" min="0" matInput formControlName="Points" name="Points">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Extra Point</mat-label>
+
+          <input type="number" matInput formControlName="ExtraPoints" name="ExtraPoints">
+        </mat-form-field>
+
+
+      </div>
+
+    </ng-container>
+  </ng-container>
+  <mat-divider></mat-divider>
+  <br>
+  <mat-card-actions>
+
+    <button type="button" mat-button mat-raised-button mat-dialog-close color="accent">Close</button>
+    <button type="button" mat-button mat-raised-button (click)="reset()" class="mat-primary">
+      reset
+    </button>
+
+    <span class="example-spacer"></span>
+
+    <button mat-button type="submit" mat-raised-button class="mat-primary">
+      SUBMIT
+    </button>
+
+  </mat-card-actions>
+</form>

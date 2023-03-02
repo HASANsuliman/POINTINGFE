@@ -1,0 +1,294 @@
+<div class="main">
+  <mat-card>
+    <mat-card-title> Add Calculation </mat-card-title>
+    <mat-divider></mat-divider>
+    <mat-stepper linear #stepper [animationDuration]="'1000'">
+      <mat-step [stepControl]="mainDirect" [editable]="isEditable" #stepper [color]="color | async">
+        <div class="step">
+          <form [formGroup]="mainDirect" (submit)="onsubmitsMain()">
+            <ng-template matStepLabel>Fill Out Main Configurations</ng-template>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Plan</mat-label>
+              <mat-select formControlName="Month" name="Month">
+                <mat-option *ngFor="let reg of months" [value]="reg">
+                  {{ reg }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-card-actions>
+              <app-loader></app-loader>
+              <button mat-raised-button type="submit" color="primary">
+                Confirm
+              </button>
+              <span class="example-spacer"></span>
+            </mat-card-actions>
+          </form>
+          <div>
+            <h3>
+              Choose Plan To Add Points For each Subdealer Affected by direct
+              Configurations
+            </h3>
+          </div>
+        </div>
+      </mat-step>
+      <mat-step [stepControl]="CondiionalDirect" [editable]="isEditable" [color]="color2 | async">
+        <div class="step">
+          <form [formGroup]="CondiionalDirect" (submit)="onsubmitCondetion()">
+            <ng-template matStepLabel>Fill out Sub Condition Plan</ng-template>
+            <mat-form-field appearance="outline">
+              <mat-label>Plan</mat-label>
+
+              <input matInput formControlName="Month" name="Month" class="matNativeControl" [value]="month" />
+              <!-- <mat-select formControlName="Month" name="Month">
+                <mat-option *ngFor="let reg of months " [value]="reg">
+                  {{ reg | date: "MM-YYYY" }}
+                </mat-option>
+              </mat-select> -->
+            </mat-form-field>
+            <mat-card-actions>
+              <app-loader></app-loader>
+              <button mat-raised-button type="submit" color="primary">
+                Confirm
+              </button>
+            </mat-card-actions>
+          </form>
+          <div>
+            <h3>
+              Choose Plan To Add extraPoints For each Subdealer Affected by
+              subdirect Configurations
+            </h3>
+          </div>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        <p>Calculations Has Been Updated Successfully</p>
+        <div>
+          <button mat-raised-button color="accent" (click)="stepper.reset()">
+            Reset
+          </button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </mat-card>
+
+  <!-- <mat-card>
+    <div class="excel">
+      <mat-card-title>Calculation Based on SubDealers </mat-card-title>
+      <mat-divider></mat-divider>
+      <br>
+      <button type="button" mat-raised-button (click)="fileInput.click()" color="accent">
+        Choose File
+      </button>
+
+      <input hidden type="file" placeholder="" (change)="onFileChange($event)" multiple="false" #fileInput type="file"
+        id="file" />
+
+      <br />
+      <br />
+
+      <div class="mainexel">
+
+        <div class="mat-elevation-z8 excel1">
+          <app-progress-bar></app-progress-bar>
+          <table mat-table [dataSource]="dataSourceExcel" matSort>
+            <ng-container matColumnDef="SD_CODE">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>SD_CODE</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.SD_CODE }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="DTO">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Date To</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.DTO }}
+              </td>
+
+            </ng-container>
+
+            <ng-container matColumnDef="DFROM">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Date From
+              </th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.DFROM }}
+              </td>
+
+            </ng-container>
+            <ng-container matColumnDef="EXTRAPOINTS">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Extra Points</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.EXTRAPOINTS }}
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsExcel"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsExcel"></tr>
+
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 25]" aria-label="Select page of users"></mat-paginator>
+        </div>
+
+        <div class="excelsend">
+
+          <form [formGroup]="SubdealersRange" (submit)="sendExcel()">
+            <ng-template matStepLabel>Fill out Sub Condition Plan</ng-template>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Plan</mat-label>
+              <mat-select formControlName="Month" name="Month" (selectionChange)="getDirectCofigsbyId()">
+                <mat-option *ngFor="let reg of monthsexcel " [value]="reg">
+                  {{ reg | date: "MM-YYYY" }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <ng-container formArrayName="subConfigs">
+              <ng-container *ngFor="let config of Ranges['controls']; let i = index" [formGroupName]="i">
+                <div class="fg">
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>From</mat-label>
+
+                    <input type="number" min="0" matInput formControlName="rangeFrom" name="rangeFrom" />
+
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>To</mat-label>
+
+                    <input type="number" min="0" matInput formControlName="rangeTo" name="rangeTo">
+
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Extra Point</mat-label>
+
+                    <input type="number" matInput formControlName="extraPoints" name="extraPoints">
+                  </mat-form-field>
+
+
+                </div>
+
+              </ng-container>
+            </ng-container>
+
+          </form>
+        </div>
+        <div class="emoty">
+          <h3>
+            Please Make Sure that SdCodes for SubDealers Are <strong> TRUE</strong>
+          </h3> <br />
+          <h3>
+            Add<strong> extraPoints</strong> for SubDealers Per Ranges
+          </h3> <br />
+          <mat-card-actions>
+            <app-loader></app-loader>
+
+
+            <button *ngIf="SubdealersRange.valid" mat-raised-button color="primary" (click)="sendExcel()">
+              Confirm
+            </button>
+          </mat-card-actions>
+        </div>
+      </div>
+
+    </div>
+
+  </mat-card> -->
+
+
+  <mat-card>
+    <mat-card-title> Calculation Content </mat-card-title>
+    <mat-divider></mat-divider>
+    <mat-form-field appearance="standard">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="..." #input />
+    </mat-form-field>
+    <div class="mat-elevation-z8">
+      <app-progress-bar></app-progress-bar>
+      <table mat-table [dataSource]="dataSource" matSort #calcSort="matSort">
+        <ng-container matColumnDef="userName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>userName</th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.userName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="planId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Plan ID</th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.planId }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="plan">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>plan</th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.plan | date: "MM-YYYY" }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="OPTIONS">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>OPTIONS</th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-button mat-raised-button color="accent" (click)="
+                openDialogINFO('1000ms', '1000ms', row.planId, row.userName)
+              ">
+              Info
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
+        </tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25]" aria-label="Select page of users" #calcPaging></mat-paginator>
+    </div>
+  </mat-card>
+
+</div>
+<!-- 
+<mat-card>
+  <mat-card-title> Calculation Content </mat-card-title>
+  <mat-divider></mat-divider>
+  <mat-form-field appearance="standard">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="..." #input />
+  </mat-form-field>
+  <div class="mat-elevation-z8">
+    <app-progress-bar></app-progress-bar>
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="userName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>userName</th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.userName }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="planId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Plan ID</th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.planId }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="plan">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>plan</th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.plan | date: "MM-YYYY" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="OPTIONS">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>OPTIONS</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-button mat-raised-button color="accent" (click)="
+              openDialogINFO('1000ms', '1000ms', row.planId, row.userName)
+            ">
+            Info
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]" aria-label="Select page of users"></mat-paginator>
+  </div>
+</mat-card> -->

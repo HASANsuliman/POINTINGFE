@@ -1,0 +1,208 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+
+@use "@angular/material" as mat;
+@import "material-icons/iconfont/material-icons.scss";
+
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$PointingFE-primary: mat.define-palette(mat.$blue-grey-palette, 500);
+$PointingFE-accent: mat.define-palette(mat.$blue-grey-palette, 200);
+$PointingFE-warn: mat.define-palette(mat.$pink-palette, 200);
+$PointingFE-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $PointingFE-primary,
+      accent: $PointingFE-accent,
+      warn: $PointingFE-warn,
+    ),
+  )
+);
+$PointingFE-dark-primary: mat.define-palette(mat.$blue-grey-palette, 900);
+$PointingFE-dark-accent: mat.define-palette(mat.$blue-grey-palette, 800);
+$PointingFE-dark-warn: mat.define-palette(mat.$blue-grey-palette, 700);
+$PointingFE-dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $PointingFE-dark-primary,
+      accent: $PointingFE-dark-accent,
+      warn: $PointingFE-dark-warn,
+    ),
+  )
+);
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($PointingFE-theme);
+.darkMode {
+  @include mat.all-component-themes($PointingFE-dark-theme);
+  mat-toolbar {
+    background: #191f22 !important;
+  }
+  .lds-spinner div:after {
+    background: #f469c2 !important;
+  }
+  .mat-snack-bar-container span {
+    color: #f469c2 !important;
+  }
+  .mat-progress-bar-fill {
+    background: #f469c2 !important;
+  }
+  .mat-progress-bar-fill::after {
+    background: #f469c2 !important;
+  }
+  .mat-paginator {
+    background: #21282c !important;
+  }
+  mat-form-field mat-icon {
+    color: #f469c2 !important;
+  }
+  .mat-stepper-horizontal {
+    background: #21282c !important;
+  }
+  .mat-table {
+    background: #21282c !important;
+  }
+  .mat-drawer-container {
+    background-color: #181717 !important;
+  }
+  .mat-drawer {
+    background-color: #181717 !important;
+  }
+  mat-card {
+    background: #191f22 !important;
+  }
+  strong {
+    color: #dd003d !important;
+  }
+  span {
+    color: #f469c2 !important;
+  }
+  mat-icon {
+    color: #f469c2 !important;
+  }
+  .img {
+    background-image: url(assets/Img/323.jpg) !important;
+  }
+}
+/* You can add global styles to this file, and also import other style files */
+strong {
+  color: #1a73e8 !important;
+}
+mat-list-item span {
+  color: #043a3e !important;
+  // color: white !important;
+}
+mat-option span {
+  color: #043a3e !important;
+  // color: white !important;
+}
+mat-select span {
+  color: #043a3e !important;
+  // color: white !important;
+}
+span {
+  //  color: #043a3e !important;
+  color: white !important;
+}
+mat-icon {
+  //color: #043a3e !important;
+  color: white !important;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+mat-icon {
+  cursor: pointer;
+}
+mat-card {
+  //box-shadow: 0px 2px 1px -1px #f06292, 0px 1px 1px 0px #f06292, 0px 1px 3px 0px #f06292 !important;
+  margin: 10px;
+  //background: url(assets/Img/33.jpg)!important ;
+}
+mat-form-field {
+  padding: 10px;
+}
+.ng-star-inserted mat-icon {
+  // color: #37474f !important;
+}
+mat-card-actions {
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+.mat-datepicker-toggle span {
+  color: #37474f !important;
+}
+.snackBar {
+  background: #37474f;
+}
+
+.snackBar span {
+  color: white !important;
+}
+table {
+  width: 100%;
+}
+
+button {
+  margin-left: 15px !important;
+}
+mat-card-actions button:hover {
+  // letter-spacing: 2px;
+  box-shadow: 0 0 10px #37474f !important;
+}
+button:hover {
+  box-shadow: 0 0 10px #37474f !important ;
+}
+
+.tableheader {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+body::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #434343;
+  border-radius: 16px;
+  box-shadow: inset 2px 2px 2px hsl(0deg 0% 100% / 25%), inset -2px -2px 2px rgb(0 0 0 / 25%);
+}
+body::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, #9692cf, #8e94b6);
+}

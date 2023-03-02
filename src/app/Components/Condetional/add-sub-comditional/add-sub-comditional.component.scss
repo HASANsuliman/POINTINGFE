@@ -1,0 +1,56 @@
+mat-form-field{
+    padding: 10px;
+  }
+  
+  
+  mat-card-actions{
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+  }
+//   :host ::ng-deep .card .mat-form-field-flex{
+//     background: #ced8dcdb !important;
+//   }
+//   :host ::ng-deep .mat-grid-tile-content{
+//     justify-content: flex-start !important;
+//   }
+  button{
+    transition: 0.5s;
+  }
+  button:hover{
+    //letter-spacing: 2px;
+    box-shadow:  0 0 10px #37474f ;
+  }
+  .add{
+    margin-right: 63%!important;
+  
+  }
+  
+  .card1{
+    width: 97%;
+  
+  }
+  .Main{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+  }
+  .main1{
+    flex: 0 0 50%;
+  }
+  .cardParent{
+    flex: 0 0 50%;
+  }
+//   :host ::ng-deep .cardParent .mat-form-field-flex{
+//     background: #f5f5f5 !important;
+//   }
+  .example-spacer {
+    flex: 1 1 auto;
+  }

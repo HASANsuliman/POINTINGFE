@@ -1,0 +1,180 @@
+<mat-card>
+    <mat-card-title> Sales Data</mat-card-title>
+    <mat-divider></mat-divider>
+    <div class="sales">
+
+    </div>
+    <!--   
+                <mat-form-field appearance="outline">
+                    <mat-label>Region</mat-label>
+                    <mat-select formControlName="REGION" name="REGION" (selectionChange)=" getCity()">
+            
+                        <mat-option *ngFor="let reg of region|async" [value]="reg">
+                            {{reg}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>City</mat-label>
+                    <mat-select formControlName="CITY" name="CITY" (selectionChange)=" getZone()">
+   
+                        <mat-option *ngFor="let reg of city|async" [value]="reg">
+                            {{reg}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Zone</mat-label>
+                    <mat-select formControlName="ZONE" name="ZONE" (selectionChange)=" getArea()">
+
+                        <mat-option *ngFor="let reg of zone|async" [value]="reg">
+                            {{reg}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Area</mat-label>
+                    <mat-select formControlName="AREA" name="AREA" (selectionChange)="getSubArea()">
+
+                        <mat-option *ngFor="let reg of Area|async" [value]="reg">
+                            {{reg}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>SubArea</mat-label>
+                    <mat-select formControlName="SUBAREA" name="SUBAREA" (selectionChange)="getSubdealr()">
+
+                        <mat-option *ngFor="let reg of SubArea|async" [value]="reg">
+                            {{reg}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>SubDealer</mat-label>
+                    <mat-select formControlName="SUBDEALER" name="SUBDEALER">
+
+                        <mat-option *ngFor="let reg of subDealer|async" [value]="reg">
+                            {{reg}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>-->
+
+    <div class="tableheader">
+        <mat-form-field appearance="standard">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFiltersales($event)" placeholder="..." #inputs />
+        </mat-form-field>
+        <form [formGroup]="calcForm" (submit)="onsubmit()">
+
+            <mat-form-field appearance="outline">
+                <mat-label>Plan</mat-label>
+                <mat-select formControlName="Month" name="Month">
+                    <mat-option *ngFor="let plan of PlanList" [value]="plan">
+                        {{plan }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-button type="submit" mat-raised-button color="primary">
+                Get Data
+            </button>
+
+        </form>
+        <!-- <app-progress-bar></app-progress-bar> -->
+        <button mat-mini-fab (click)="exporter.exportTable('xlsx', { fileName: 'Pints',  sheet: 'Point' })">
+            <mat-icon>download</mat-icon>
+        </button>
+    </div>
+    <!-- </div> -->
+    <div class="mat-elevation-z8">
+        <app-progress-bar></app-progress-bar>
+        <table mat-table matTableExporter [dataSource]="src" matSort #saleSort="matSort" #exporter="matTableExporter">
+            <ng-container matColumnDef="month">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Month</th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.key.month}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="region">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Region</th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.key.region }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="city">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>City</th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.key.city }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="zone">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Zone</th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.key.zone }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="area">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Area</th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.key.area }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="subarea">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>SubArea</th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.key.subarea }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="sD_CODE">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>SD Code</th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.key.sD_CODE }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="sD_NAME">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>SD Name</th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.key.sD_NAME }}
+                </td>
+            </ng-container>
+            <!-- <ng-container matColumnDef="firsT_RECHARGE">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>First Recharge</th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.firsT_RECHARGE }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="point">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Points</th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.point }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="extrapoint">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Extra Point</th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.extrapoint }}
+                </td>
+            </ng-container> -->
+            <ng-container matColumnDef="toalPoint">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Point</th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.toalPoint }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="toalSYP">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Total SYP</th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.toalPoint * price | number}}
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsSales"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsSales"></tr>
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching the filter "{{ inputs.value }}"</td>
+            </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25]" aria-label="Select page " #salesPaging></mat-paginator>
+    </div>
+</mat-card>

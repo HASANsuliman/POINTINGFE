@@ -1,0 +1,98 @@
+<h2>Conditional-info</h2>
+
+  <!-- <mat-card class="card"> -->
+    <div class="cardParent ">
+          
+      <mat-form-field appearance="standard">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="..." #input />
+      </mat-form-field>
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="subConfigId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>subConfigId</th>
+                <td mat-cell *matCellDef="let row">{{ row.subConfigId }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="dateFrom">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Date From</th>
+                <td mat-cell *matCellDef="let row">{{ row.dateFrom  |date : "dd-MM-yyyy"}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="dateTo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Date To</th>
+                <td mat-cell *matCellDef="let row">{{ row.dateTo |date : "dd-MM-yyyy" }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="region">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Region</th>
+                <td mat-cell *matCellDef="let row">{{ row.region }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="city">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>City</th>
+                <td mat-cell *matCellDef="let row">{{ row.city }}</td>
+              </ng-container>
+              <ng-container matColumnDef="zone">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Zone</th>
+                <td mat-cell *matCellDef="let row">{{ row.zone }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="area">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Area</th>
+                <td mat-cell *matCellDef="let row">{{ row.area }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="subarea">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>SubArea</th>
+                <td mat-cell *matCellDef="let row">{{ row.subarea }}</td>
+              </ng-container>
+
+
+
+              <ng-container matColumnDef="subdealer">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Subdealer</th>
+                <td mat-cell *matCellDef="let row">{{ row.subdealer }}</td>
+              </ng-container>
+
+
+
+          <ng-container matColumnDef="rangeFrom">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Range From</th>
+            <td mat-cell *matCellDef="let row">{{ row.rangeFrom }}</td>
+          </ng-container>
+          <ng-container matColumnDef="rangeTo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Range To</th>
+            <td mat-cell *matCellDef="let row">{{ row.rangeTo }}</td>
+          </ng-container>
+          <ng-container matColumnDef="points">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Points</th>
+            <td mat-cell *matCellDef="let row">{{ row.points }}</td>
+          </ng-container>
+          <ng-container matColumnDef="extraPoints">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Extra Points</th>
+            <td mat-cell *matCellDef="let row">{{ row.extraPoints }}</td>
+          </ng-container>
+         
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">
+              No data matching the filter "{{ input.value }}"
+            </td>
+          </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25]" aria-label="Select page of users"></mat-paginator>
+      </div>
+  </div>
+  <br>
+  <mat-divider></mat-divider>
+  <br>
+  <button type="button" mat-button mat-raised-button mat-dialog-close color="accent">Close</button>
+
+<!-- </mat-card> -->
+
+
+
+
+
