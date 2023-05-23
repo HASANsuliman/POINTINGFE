@@ -15,7 +15,7 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $PointingFE-primary: mat.define-palette(mat.$blue-grey-palette, 500);
-$PointingFE-accent: mat.define-palette(mat.$blue-grey-palette, 200);
+$PointingFE-accent: mat.define-palette(mat.$light-blue-palette, 600);
 $PointingFE-warn: mat.define-palette(mat.$pink-palette, 200);
 $PointingFE-theme: mat.define-light-theme(
   (
@@ -109,9 +109,13 @@ mat-select span {
   color: #043a3e !important;
   // color: white !important;
 }
-span {
+mat-toolbar span {
   //  color: #043a3e !important;
   color: white !important;
+}
+table .mat-button-wrapper {
+  //  color: #043a3e !important;
+  //color: rgb(96, 101, 146) !important;
 }
 mat-icon {
   //color: #043a3e !important;
@@ -144,8 +148,8 @@ mat-card {
 mat-form-field {
   padding: 10px;
 }
-.ng-star-inserted mat-icon {
-  // color: #37474f !important;
+.sps {
+  color: #607d8b !important;
 }
 mat-card-actions {
   padding: 10px 20px;

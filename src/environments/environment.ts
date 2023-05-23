@@ -3,11 +3,13 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  PlanUrl:'https://localhost:7013/api/Plan',
-  DirectUrl:'https://localhost:7013/api/Directcfg',
-  SubDirectUrl:'https://localhost:7013/api/SubDirect',
-  userUrl:'https://localhost:7013/api/Auth',
-  calcurl:'https://localhost:7013/api/Calculation',
+  PlanUrl: 'https://localhost:7013/api/Plan',
+  DirectUrl: 'https://localhost:7013/api/Directcfg',
+  DirectPromUrl: 'https://localhost:7013/api/DirectcfgProm',
+  SubDirectUrl: 'https://localhost:7013/api/SubDirect',
+  SubDirectUrlProm: 'https://localhost:7013/api/SubDirectProm',
+  userUrl: 'https://localhost:7013/api/Auth',
+  calcurl: 'https://localhost:7013/api/Calculation',
 
   production: false
 };

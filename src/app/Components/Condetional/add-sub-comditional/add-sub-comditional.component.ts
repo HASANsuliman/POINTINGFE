@@ -1,4 +1,5 @@
 import { DialogRef } from "@angular/cdk/dialog";
+import { DatePipe } from "@angular/common";
 import { Component, Inject, OnInit, ViewChild } from "@angular/core";
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from "@angular/forms";
 import { MatDatepicker } from "@angular/material/datepicker";
@@ -11,13 +12,21 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { CondetionalService } from "src/app/Services/condetional.service";
 import { ConfirmationService } from "src/app/Services/confirmation.service";
-
+interface bool {
+	value: any;
+	viewValue: string;
+}
 @Component({
 	selector: "app-add-sub-comditional",
 	templateUrl: "./add-sub-comditional.component.html",
 	styleUrls: ["./add-sub-comditional.component.scss"],
 })
 export class AddSubComditionalComponent implements OnInit {
+	newContraList: bool[] = [
+		{ value: null, viewValue: 'All' },
+		{ value: 0, viewValue: 'No' },
+		{ value: 1, viewValue: 'Yes' },
+	];
 	subDirectsalesform: FormGroup = new FormGroup({});
 	displayedColumns: string[] = ["rangeFrom", "rangeTo", "points", "Options"];
 	dataSource!: MatTableDataSource<any>;
@@ -31,6 +40,9 @@ export class AddSubComditionalComponent implements OnInit {
 	subDealer!: Observable<string[]>;
 	dataa: Array<any> = [];
 	TitlePlan: string = "";
+	firstDay: any
+	lastDay: any
+
 	constructor(
 		@Inject(MAT_DIALOG_DATA) private data: any,
 		private fb: FormBuilder,
@@ -39,7 +51,9 @@ export class AddSubComditionalComponent implements OnInit {
 		public dialogref: DialogRef,
 		public router: Router,
 		private sb: MatSnackBar,
-		private conf: ConfirmationService
+		private conf: ConfirmationService,
+		private datePipe: DatePipe,
+
 	) { }
 	get f() {
 		return this.subDirectsalesform.controls;
@@ -97,6 +111,8 @@ export class AddSubComditionalComponent implements OnInit {
 		this.subDirectsalesform.controls["DateTo"].reset();
 	}
 	ngOnInit(): void {
+		console.log(this.data);
+
 		this.getRegion();
 		this.subDirectsalesform = this.fb.group({
 			Month: new FormControl({ value: "", disabled: true }),
@@ -112,6 +128,7 @@ export class AddSubComditionalComponent implements OnInit {
 			AREA: new FormControl(),
 			SUBAREA: new FormControl(),
 			SUBDEALER: new FormControl(),
+			NEWCONTRA: new FormControl(),
 			SubConfigId: new FormControl({ value: "", disabled: true }),
 			subConfigs: new FormArray([
 				// this.fb.group({
@@ -126,8 +143,13 @@ export class AddSubComditionalComponent implements OnInit {
 		this.Conditional.GetAllDirectconfigbyid(this.data.planId).subscribe((x: any) => {
 			this.dataa = x;
 			var xt = this.dataa[0].month;
-			//console.log(xt);
-			this.f["Month"].setValue(this.dataa[0].month);
+			const day = new Date(xt);
+			this.firstDay = new Date(day.getFullYear(), day.getMonth(), 1);
+			this.lastDay = new Date(day.getFullYear(), day.getMonth() + 1, 0);
+			var month = this.datePipe.transform(this.firstDay, 'MM-yyyy')
+
+			console.log(month);
+			this.f["Month"].setValue(month);
 			this.f["PlanId"].setValue(this.dataa[0].planId);
 			this.f["SubConfigId"].setValue(Math.floor(Math.random() * 2147483640 + 1));
 			this.f["DateFrom"].setValue(this.dataa[0].month);

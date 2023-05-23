@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Delete Configration</h1>
+
+<form [formGroup]="deleteform" (submit)="onsubmit()">
+    <mat-form-field appearance="fill">
+        <mat-label>Plan</mat-label>
+        <mat-select formControlName="Month" name="Month" (selectionChange)="getplanlistId()">
+            <!-- <mat-option value> ALL</mat-option> -->
+            <mat-option *ngFor="let plan of PlanList" [value]="plan">
+                {{plan | date:"MM-YYYY"}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>PlanId</mat-label>
+        <input matInput [value]="id?id:0" disabled>
+    </mat-form-field>
+    <div mat-dialog-actions>
+        <button mat-button mat-raised-button mat-dialog-close color="accent">Close</button>
+        <span class="example-spacer"></span>
+        <button mat-button mat-raised-button type="submit" color="primary">Delete</button>
+    </div>
+</form>

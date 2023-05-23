@@ -10,6 +10,7 @@ import { ManegmentComponent } from "./Components/manegment/manegment.component";
 import { MainPlanComponent } from "./Components/Plan/main-plan/main-plan.component";
 import { ReportsComponent } from "./Components/reports/reports.component";
 import { AuthGuard } from "./Guards/auth.guard";
+import { VasCalculationComponent } from "./vas-calculation/vas-calculation.component";
 
 const routes: Routes = [
   {
@@ -19,6 +20,12 @@ const routes: Routes = [
   {
     path: 'Calculation',
     component: MainCalculationComponent,
+    // canActivate: [AuthGuard],
+    // data: { roles: ['Admin'] }
+  },
+  {
+    path: 'Vas',
+    component: VasCalculationComponent,
     // canActivate: [AuthGuard],
     // data: { roles: ['Admin'] }
   },

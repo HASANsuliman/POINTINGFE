@@ -62,6 +62,35 @@
           </div>
         </div>
       </mat-step>
+      <!-- <mat-step [stepControl]="Promoter" [editable]="isEditable" [color]="color2 | async">
+        <div class="step">
+          <form [formGroup]="CondiionalDirect" (submit)="onsubmitCondetion()">
+            <ng-template matStepLabel>PROMOTER</ng-template>
+            <mat-form-field appearance="outline">
+              <mat-label>Plan</mat-label>
+
+              <input matInput formControlName="Month" name="Month" class="matNativeControl" [value]="month" />
+             <mat-select formControlName="Month" name="Month">
+                <mat-option *ngFor="let reg of months " [value]="reg">
+                  {{ reg | date: "MM-YYYY" }}
+                </mat-option>
+              </mat-select> 
+            </mat-form-field>
+            <mat-card-actions>
+              <app-loader></app-loader>
+              <button mat-raised-button type="submit" color="primary">
+                Confirm
+              </button>
+            </mat-card-actions>
+          </form>
+          <div>
+            <h3>
+              Choose Plan To Add extraPoints For each Subdealer Affected by
+              subdirect Configurations
+            </h3>
+          </div>
+        </div>
+      </mat-step> -->
       <mat-step>
         <ng-template matStepLabel>Done</ng-template>
         <p>Calculations Has Been Updated Successfully</p>

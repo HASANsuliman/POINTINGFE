@@ -54,6 +54,13 @@ import { ReportsComponent } from './Components/reports/reports.component';
 import { ManegmentComponent } from './Components/manegment/manegment.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { AddSubPromComponent } from './Components/Condetional/add-sub-prom/add-sub-prom.component';
+import { SubInfoPromComponent } from './Components/Condetional/sub-info-prom/sub-info-prom.component';
+import { InfoDirectPromComponent } from './Components/DIrectConfig/info-direct-prom/info-direct-prom.component';
+import { DeleteDirectPromComponent } from './Components/DIrectConfig/delete-direct-prom/delete-direct-prom.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { DatePipe } from "@angular/common";
+import { VasCalculationComponent } from './vas-calculation/vas-calculation.component';
 
 export const MY_FORMATSd = {
 	parse: {
@@ -88,6 +95,11 @@ export const MY_FORMATSd = {
 		CalculationInfoComponent,
 		ReportsComponent,
 		ManegmentComponent,
+		AddSubPromComponent,
+		SubInfoPromComponent,
+		InfoDirectPromComponent,
+		DeleteDirectPromComponent,
+  VasCalculationComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -120,9 +132,11 @@ export const MY_FORMATSd = {
 		MatProgressBarModule,
 		MatTableExporterModule,
 		MatAutocompleteModule,
-		MatSlideToggleModule
+		MatSlideToggleModule,
+		MatCheckboxModule
 	],
 	providers: [
+		DatePipe,
 		{
 			provide: HTTP_INTERCEPTORS,
 			useClass: AuthInterceptInterceptor,

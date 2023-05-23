@@ -44,7 +44,7 @@
                   <input type="number" matInput formControlName="Points" name="Points" />
                 </mat-form-field>
 
-                <mat-icon mat-mini-fab (click)="deletecfg(i)">
+                <mat-icon class="sps" mat-mini-fab (click)="deletecfg(i)">
                   delete_forever</mat-icon>
               </div>
             </ng-container>
@@ -136,8 +136,136 @@
     </mat-card>
   </mat-tab>
   <mat-tab label="Promoters">
+    <mat-card class="card">
+      <mat-card-title> Direct Configurations For Subdealer Based on Promoters</mat-card-title>
+      <mat-divider></mat-divider>
+
+      <mat-card-content>
+        <form [formGroup]="InDirectsalesform" (submit)="onsubmitProm()">
+          <br />
+
+          <h3>Choose Plan</h3>
+          <mat-form-field appearance="outline">
+            <mat-label>Plan</mat-label>
+            <mat-select formControlName="Month" name="Month" (selectionChange)="getplanlistIdProm()">
+              <mat-option *ngFor="let plan of PlanList" [value]="plan">
+                {{plan| date:"MM-YYYY"}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>PlanId</mat-label>
+            <input matInput [value]="idP?idP:''" disabled>
+          </mat-form-field>
+          <h3>Add Ranges and Points for First recharge based on Promoter</h3>
+          <ng-container formArrayName="Configs">
+            <ng-container *ngFor="let config of ConfigsPromoter ['controls']; let i = index" [formGroupName]="i">
+              <div>
+                <mat-form-field appearance="outline">
+                  <mat-label>From</mat-label>
+
+                  <input type="number" min="0" matInput formControlName="RangeFrom" name="RangeFrom"
+                    class="matNativeControl" />
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>To</mat-label>
+
+                  <input type="number" matInput formControlName="RangeTo" name="RangeTo" />
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Pt</mat-label>
+
+                  <input type="number" matInput formControlName="Points" name="Points" />
+                </mat-form-field>
+
+                <mat-icon class="sps" mat-mini-fab (click)="deletecfgProm(i)">
+                  delete_forever</mat-icon>
+              </div>
+            </ng-container>
+          </ng-container>
+          <mat-card-actions>
+            <button type="button" (click)="addProm()" mat-button mat-raised-button color="accent">
+              <mat-icon mat-mini-fab> add_forever </mat-icon>
+            </button>
+
+            <button mat-button type="submit" mat-raised-button color="primary">
+              SUBMIT
+            </button>
+          </mat-card-actions>
+        </form>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-title> Direct Configurations Content For Promoter</mat-card-title>
+      <mat-divider></mat-divider>
+      <div class="cardheader">
+        <mat-form-field appearance="standard">
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilteProm($event)" placeholder="..." #input>
+        </mat-form-field>
+        <div>
+
+          <button mat-mini-fab
+            (click)="exporter.exportTable('xlsx', { fileName: 'Direct Configuration based on promoter',  sheet: 'Configuration' })">
+            <mat-icon>download</mat-icon>
+          </button>
+        </div>
+
+      </div>
+
+      <div class="mat-elevation-z8">
+        <app-progress-bar></app-progress-bar>
+        <table mat-table matTableExporter [dataSource]="dataSourceprom" matSort #exporter="matTableExporter">
+
+          <ng-container matColumnDef="planId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> planId </th>
+            <td mat-cell *matCellDef="let row"> {{row.planId}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="month">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Plan </th>
+            <td mat-cell *matCellDef="let row"> {{row.month| date :"MM-YYYY"}} </td>
+          </ng-container>
+          <ng-container matColumnDef="planid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Plan ID </th>
+            <td mat-cell *matCellDef="let row"> {{row.planId}} </td>
+          </ng-container>
+          <ng-container matColumnDef="dateEntry">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Insert Date </th>
+            <td mat-cell *matCellDef="let row"> {{ row.dateEntry }}</td>
+          </ng-container>
+          <ng-container matColumnDef="userName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> User Name </th>
+            <td mat-cell *matCellDef="let row"> {{row.userName}}</td>
+          </ng-container>
 
 
+          <ng-container matColumnDef="optipns">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> optipns </th>
+            <td mat-cell *matCellDef="let row">
 
+              <button mat-raised-button color="warn" (click)="deleterangidProm(row.planId)">
+                Delete
+              </button>
+              <button mat-button mat-raised-button color="accent"
+                (click)="OpenDialogInfoProm('1000ms', '1000ms',row.planId)">
+                Info
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data {{input.value}}</td>
+          </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25]" aria-label="Select page of users"></mat-paginator>
+      </div>
+
+    </mat-card>
   </mat-tab>
 </mat-tab-group>

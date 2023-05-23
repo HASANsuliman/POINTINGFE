@@ -14,6 +14,7 @@ import { DirectService } from "src/app/Services/direct.service";
 import { InfoDirectComponent } from "../info-direct/info-direct.component";
 import { DeleteDirectComponent } from "../delete-direct/delete-direct.component";
 import { ConfirmationService } from "src/app/Services/confirmation.service";
+import { InfoDirectPromComponent } from "../info-direct-prom/info-direct-prom.component";
 
 export const MY_FORMATS = {
 	parse: {
@@ -52,6 +53,7 @@ export class MainDirectComponent implements OnInit {
 		"optipns",
 	];
 	dataSource!: MatTableDataSource<any>;
+	dataSourceprom!: MatTableDataSource<any>;
 
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
 	@ViewChild(MatSort) sort!: MatSort;
@@ -62,11 +64,18 @@ export class MainDirectComponent implements OnInit {
 	InDirectsalesform: FormGroup = new FormGroup({});
 	PlanList: any = [];
 	id: any;
+	idP: any
 	del: any;
 	datadirect: any;
 	allDirect: any;
+
+
+	//main sd
 	get f() {
 		return this.Directsalesform.controls;
+	}
+	get Configs(): FormArray {
+		return this.Directsalesform.get("Configs") as FormArray;
 	}
 	applyFilter(event: Event) {
 		const filterValue = (event.target as HTMLInputElement).value;
@@ -102,9 +111,7 @@ export class MainDirectComponent implements OnInit {
 		// 	}
 		// }
 	}
-	get Configs(): FormArray {
-		return this.Directsalesform.get("Configs") as FormArray;
-	}
+
 	add() {
 		let i = (this.Configs.controls[this.Configs.length - 1] as FormGroup).get("RangeTo")?.value;
 		let newcfg = this.fb.group({
@@ -116,13 +123,6 @@ export class MainDirectComponent implements OnInit {
 
 		//console.log(i);
 	}
-	setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>) {
-		const ctrlValue = this.f["Month"].value!;
-		ctrlValue.month(normalizedMonthAndYear.month());
-		ctrlValue.year(normalizedMonthAndYear.year());
-		this.f["Month"].setValue(ctrlValue);
-		datepicker.close();
-	}
 	deletecfg(cfgidx: number) {
 		if (cfgidx == 0) {
 			window.confirm("Cant Be Deleted");
@@ -130,6 +130,15 @@ export class MainDirectComponent implements OnInit {
 			this.Configs.removeAt(cfgidx);
 		}
 	}
+
+	setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>) {
+		const ctrlValue = this.f["Month"].value!;
+		ctrlValue.month(normalizedMonthAndYear.month());
+		ctrlValue.year(normalizedMonthAndYear.year());
+		this.f["Month"].setValue(ctrlValue);
+		datepicker.close();
+	}
+
 
 	getplanlist() {
 		this.directServ.getPlanlist().subscribe((x: any) => {
@@ -156,7 +165,6 @@ export class MainDirectComponent implements OnInit {
 	getplanlistId() {
 		this.directServ.getPlanId(this.f["Month"].value).subscribe((x: any) => {
 			// console.log(x);
-
 			this.id = x.result[0];
 			this.f["PlanId"].setValue(this.id);
 			// console.log(x);
@@ -191,11 +199,117 @@ export class MainDirectComponent implements OnInit {
 		});
 	}
 
+
+
+	//based on Promoter
+	onsubmitProm() {
+
+		this.conf
+			.confirmation({
+				Title: "Adding new Direct Configurations based on promoter",
+				Message: "Are You Sure You Want to Add Configuration",
+				Confirm: "Add Config",
+				Cancel: "Close",
+			}).subscribe(datax => {
+				if (datax) {
+					if (this.InDirectsalesform.valid) {
+						this.directServ.AddDirectProm(this.InDirectsalesform.value).subscribe();
+					} else {
+						this.sb.open(" Plese Complete the Form  one or more options are required");
+					}
+				}
+			})
+	}
+	get fp() {
+		return this.InDirectsalesform.controls;
+	}
+	get ConfigsPromoter(): FormArray {
+		return this.InDirectsalesform.get("Configs") as FormArray;
+	}
+	addProm() {
+		let i = (this.ConfigsPromoter.controls[this.ConfigsPromoter.length - 1] as FormGroup).get("RangeTo")?.value;
+		let newcfg = this.fb.group({
+			RangeFrom: [i + 1, Validators.required],
+			RangeTo: ["", Validators.required],
+			Points: ["", Validators.required],
+		});
+		this.ConfigsPromoter.push(newcfg);
+
+		//console.log(i);
+	}
+	deletecfgProm(cfgidx: number) {
+		if (cfgidx == 0) {
+			window.confirm("Can't Be Deleted");
+		} else {
+			this.ConfigsPromoter.removeAt(cfgidx);
+		}
+	}
+	applyFilteProm(events: Event) {
+		const filterValue = (events.target as HTMLInputElement).value;
+		this.dataSourceprom.filter = filterValue.trim().toLowerCase();
+
+		if (this.dataSourceprom.paginator) {
+			this.dataSourceprom.paginator.firstPage();
+		}
+	}
+	deleterangidProm(rangeId: any) {
+		this.conf
+			.confirmation({
+				Title: "Deleting  Configuration",
+				Message: "Are You Sure You Want to Delete this Configuration",
+				Confirm: "Delete",
+				Cancel: "Close",
+			})
+			.subscribe((datax) => {
+				if (datax) {
+					this.directServ.DeleteconfigProm(rangeId).subscribe();
+				}
+			});
+	}
+	OpenDialogInfoProm(enterAnimationDuration: string, exitAnimationDuration: string, id: any) {
+		this.dialog.open(InfoDirectPromComponent, {
+			width: "1000px",
+			height: "500px",
+			data: { id: id },
+			disableClose: true,
+			enterAnimationDuration,
+			exitAnimationDuration,
+		});
+	}
+	getplanlistIdProm() {
+		this.directServ.getPlanIdProm(this.fp["Month"].value).subscribe((x: any) => {
+			// console.log(x);
+			this.idP = x.result[0];
+			this.fp["PlanId"].setValue(this.idP);
+			// console.log(x);
+		});
+	}
+	getalldirectProm() {
+		this.directServ.DirectCfgProm.subscribe((x) => {
+			this.allDirect = x;
+			// console.log(x);
+			this.dataSourceprom = new MatTableDataSource<any>(this.allDirect);
+			this.dataSourceprom.sort = this.sort;
+			this.dataSourceprom.paginator = this.paginator;
+		});
+	}
 	ngOnInit(): void {
 		this.getalldirect();
+		this.getalldirectProm();
+
 		this.getplanlist();
-		this.getalldirect();
 		this.Directsalesform = this.fb.group({
+			PlanId: new FormControl(),
+			Month: new FormControl(moment(), [Validators.required]),
+			Configs: new FormArray([
+				this.fb.group({
+					RangeFrom: new FormControl(0, [Validators.required]),
+					RangeTo: new FormControl([Validators.required]),
+					Points: new FormControl([Validators.required]),
+				}),
+			]),
+		});
+		this.InDirectsalesform = this.fb.group({
 			PlanId: new FormControl(),
 			Month: new FormControl(moment(), [Validators.required]),
 			Configs: new FormArray([

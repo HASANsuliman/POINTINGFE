@@ -57,7 +57,7 @@ export const MY_FORMATS = {
   ],
 })
 export class MainCalculationComponent implements OnInit {
-  displayedColumns: string[] = ['planId', 'userName', 'plan', 'OPTIONS'];
+  displayedColumns: string[] = ['planId', 'plan', 'userName', 'OPTIONS'];
   displayedColumnsExcel: string[] = ['SD_CODE', 'DTO', 'DFROM', 'EXTRAPOINTS'];
   displayedColumnse: string[] = ["rangeFrom", "rangeTo", "EXTRAPOINTS"];
   dataSource!: MatTableDataSource<any>;
@@ -71,6 +71,7 @@ export class MainCalculationComponent implements OnInit {
   SubMain: any;
   CondiionalDirect: FormGroup = new FormGroup({});
   mainDirect: FormGroup = new FormGroup({});
+  Promoter: FormGroup = new FormGroup({});
   ExcelForm: FormGroup = new FormGroup({});
   SubdealersRange: FormGroup = new FormGroup({});
   excelData: any;
@@ -183,7 +184,7 @@ export class MainCalculationComponent implements OnInit {
             ).subscribe();
             this.c["Month"].setValue(this.mainDirect.value)
             this.month = this.mainDirect.value.Month
-            // console.log(this.mainDirect.value.Month);
+            console.log(this.mainDirect.value.Month);
 
           } else {
             this.sb.open(
@@ -209,7 +210,7 @@ export class MainCalculationComponent implements OnInit {
             this.CondiionalDirect.getRawValue().Month,
             this.stepper
           ).subscribe();
-          console.log(this.CondiionalDirect.getRawValue());
+          //   console.log(this.CondiionalDirect.getRawValue());
           //  }
           //  else {
           //   this.sb.open(
@@ -293,6 +294,9 @@ export class MainCalculationComponent implements OnInit {
       dateExcel: new FormControl('', [Validators.required]),
     });
     this.mainDirect = this.fb.group({
+      Month: new FormControl('', [Validators.required]),
+    });
+    this.Promoter = this.fb.group({
       Month: new FormControl('', [Validators.required]),
     });
     this.SubdealersRange = this.fb.group({

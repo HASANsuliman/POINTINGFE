@@ -25,15 +25,16 @@
     <br>
     <mat-form-field appearance="outline">
       <mat-label>DateFrom</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="DateFrom" name="DateFrom">
-      <mat-hint>DD/MM/YYYY</mat-hint>
+      <input matInput [matDatepicker]="picker" [min]="firstDay" [max]="lastDay" formControlName="DateFrom"
+        name="DateFrom">
+      <mat-hint>DD / MM/ YYYY</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>DateTo</mat-label>
-      <input matInput [matDatepicker]="pickerf" formControlName="DateTo" name="DateTo">
-      <mat-hint>DD/MM/YYYY</mat-hint>
+      <input matInput [matDatepicker]="pickerf" [min]="firstDay" [max]="lastDay" formControlName="DateTo" name="DateTo">
+      <mat-hint>DD / MM/ YYYY</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="pickerf"></mat-datepicker-toggle>
       <mat-datepicker #pickerf></mat-datepicker>
     </mat-form-field> <br>
@@ -97,6 +98,16 @@
 
         <mat-option *ngFor="let reg of subDealer|async" [value]="reg">
           {{reg}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!-- <mat-checkbox class="example-margin" formControlName="NEWCONTRA" name="NEWCONTRA">New Contract</mat-checkbox> -->
+    <!-- <mat-slide-toggle formControlName="NEWCONTRA">New Contract</mat-slide-toggle> -->
+    <mat-form-field appearance="outline">
+      <mat-label>New Contract</mat-label>
+      <mat-select formControlName="NEWCONTRA" name="NEWCONTRA">
+        <mat-option *ngFor="let reg of newContraList" [value]="reg.value">
+          {{reg.viewValue}}
         </mat-option>
       </mat-select>
     </mat-form-field>

@@ -1,7 +1,7 @@
 <mat-tab-group>
-  <mat-tab label="SubDealer">
+  <mat-tab label="subDealer">
     <mat-card class="card">
-      <mat-card-title> SubCondition Direct Configration</mat-card-title>
+      <mat-card-title> Sub Configration</mat-card-title>
       <mat-divider></mat-divider>
       <mat-card-content>
         <form [formGroup]="subDirectsalesform" (submit)="onsubmit()">
@@ -73,12 +73,7 @@
                 </td>
 
               </ng-container>
-              <ng-container matColumnDef="EXTRAPOINTS">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Extra Points</th>
-                <td mat-cell *matCellDef="let row">
-                  {{ row.EXTRAPOINTS }}
-                </td>
-              </ng-container> -->
+
               <tr mat-header-row *matHeaderRowDef="displayedColumnsExcel"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumnsExcel"></tr>
 
@@ -93,11 +88,16 @@
 
               <mat-form-field appearance="outline">
                 <mat-label>Plan</mat-label>
-                <mat-select formControlName="Month" name="Month" (selectionChange)="getDirectCofigsbyIdexel()">
+                <mat-select formControlName="Month" name="Month"
+                  (selectionChange)="getDirectCofigsbyIdexel();getDirectCofigsexecbyId()">
                   <mat-option *ngFor="let reg of monthsexcel " [value]="reg">
                     {{ reg | date: "MM-YYYY" }}
                   </mat-option>
                 </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>PlanId</mat-label>
+                <input matInput formControlName="PlanId" name="PlanId" [value]="planidex ? planidex : ''" />
               </mat-form-field>
 
               <ng-container formArrayName="subConfigs">
@@ -284,7 +284,296 @@
     </mat-card>
   </mat-tab>
 
-  <mat-tab label="Promoter">
 
+
+  <mat-tab label="Promopter">
+    <mat-card class="card">
+      <mat-card-title> Promoter Sub Configration</mat-card-title>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <form [formGroup]="subDirectsalesformProm" (submit)="onsubmit()">
+          <div class="Main">
+            <div class="main1">
+              <mat-form-field appearance="outline">
+                <mat-label>Plan</mat-label>
+                <mat-select formControlName="Month" name="Month" (selectionChange)="getDirectCofigsbyIdProm();">
+                  <mat-option *ngFor="let reg of months|async" [value]="reg">
+                    {{ reg | date: "MM-YYYY" }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>PlanId</mat-label>
+                <input matInput formControlName="PlanIdProm" name="PlanIdProm"
+                  [value]="planidProm ? planidProm : null" />
+              </mat-form-field>
+              <button mat-raised-button color="accent" (click)="openDialogProm('1000ms', '1000ms', planidProm)">
+                Add Condition
+              </button>
+            </div>
+
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <div class="excel">
+        <mat-card-title>Calculation Based on Promter </mat-card-title>
+        <mat-divider></mat-divider>
+        <br>
+        <button type="button" mat-raised-button (click)="fileInputs.click()" color="accent">
+          Choose File
+        </button>
+
+        <input hidden type="file" placeholder="" (change)="onFileChangeProm($event)" multiple="false" #fileInputs
+          type="file" id="file" />
+
+        <br />
+        <br />
+
+        <div class="mainexel">
+
+          <div class="mat-elevation-z8 excel1">
+            <app-progress-bar></app-progress-bar>
+            <table mat-table [dataSource]="dataSourceExcelProm" matSort>
+              <ng-container matColumnDef="SD_CODE">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>SD_CODE</th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.SD_CODE }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="DTO">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Date To</th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.DTO }}
+                </td>
+
+              </ng-container>
+
+              <ng-container matColumnDef="DFROM">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Date From
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.DFROM }}
+                </td>
+
+              </ng-container>
+              <!-- <ng-container matColumnDef="EXTRAPOINTS">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Extra Points</th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.EXTRAPOINTS }}
+                </td>
+              </ng-container> -->
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsExcelProm"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumnsExcelProm"></tr>
+
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25]" aria-label="Select page of users"></mat-paginator>
+          </div>
+
+          <div class="excelsend">
+
+            <form [formGroup]="SubdealersRangeProm" (submit)="sendExcelProm()">
+              <ng-template matStepLabel>Fill out Sub Condition Plan</ng-template>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Plan</mat-label>
+                <mat-select formControlName="Month" name="Month"
+                  (selectionChange)="getDirectCofigsbyIdexelProm();getDirectCofigsexecbyIdProm()">
+                  <mat-option *ngFor="let reg of monthsexcel " [value]="reg">
+                    {{ reg | date: "MM-YYYY" }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>PlanId</mat-label>
+                <input matInput formControlName="PlanIdp" name="PlanIdp" [value]="PlanIdPex ? PlanIdPex : ''" />
+              </mat-form-field>
+              <ng-container formArrayName="subConfigs">
+                <ng-container *ngFor="let config of RangesProm['controls']; let i = index" [formGroupName]="i">
+                  <div class="fg">
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>From</mat-label>
+
+                      <input type="number" min="0" matInput formControlName="rangeFrom" name="rangeFrom" />
+
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>To</mat-label>
+
+                      <input type="number" min="0" matInput formControlName="rangeTo" name="rangeTo">
+
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Extra Point</mat-label>
+
+                      <input type="number" matInput formControlName="extraPoints" name="extraPoints">
+                    </mat-form-field>
+
+
+                  </div>
+
+                </ng-container>
+              </ng-container>
+
+            </form>
+          </div>
+          <div class="emoty">
+            <h3>
+              Please Make Sure that SdCodes for SubDealers Are <strong> TRUE</strong>
+            </h3> <br />
+            <h3>
+              Add<strong> extraPoints</strong> for SubDealers Per Ranges
+            </h3> <br />
+            <mat-card-actions>
+              <app-loader></app-loader>
+
+
+              <button *ngIf="SubdealersRangeProm.valid" mat-raised-button color="primary" (click)="sendExcelProm()">
+                Confirm
+              </button>
+            </mat-card-actions>
+          </div>
+        </div>
+
+      </div>
+
+    </mat-card>
+
+
+
+    <mat-card class="card">
+      <mat-card-title> SubCondition Content</mat-card-title>
+      <mat-divider></mat-divider>
+      <div class="cardParent">
+        <mat-form-field appearance="standard">
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilterProm($event)" placeholder="..." #input />
+        </mat-form-field>
+        <div class="mat-elevation-z8">
+          <button mat-mini-fab
+            (click)="exporter.exportTable('xlsx', { fileName: 'Promoter Configuration',  sheet: 'Configuration' })">
+            <mat-icon>download</mat-icon>
+          </button>
+          <app-progress-bar></app-progress-bar>
+          <table mat-table [dataSource]="dataSourceProm" matSort matTableExporter #exporter="matTableExporter">
+
+            <ng-container matColumnDef="month">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>month</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.month | date: "MM-YYYY" }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="dateFrom">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                dateFrom
+              </th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.dateFrom | date: "dd-MM-YYYY" }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="dateTo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>dateTo</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.dateTo | date: "dd-MM-YYYY" }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="planId">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>planId</th>
+              <td mat-cell *matCellDef="let row">{{ row.planId }}</td>
+            </ng-container>
+            <ng-container matColumnDef="subConfigId">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                subConfigId
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.subConfigId }}</td>
+            </ng-container>
+            <!-- <ng-container matColumnDef="rangeFrom">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Range From</th>
+              <td mat-cell *matCellDef="let row">{{ row.rangeFrom }}</td>
+            </ng-container>
+            <ng-container matColumnDef="rangeTo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Range To</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.rangeTo }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="points">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Points</th>
+              <td mat-cell *matCellDef="let row">{{ row.points }}</td>
+            </ng-container>
+            <ng-container matColumnDef="extraPoints">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>extra Points</th>
+              <td mat-cell *matCellDef="let row">{{ row.extraPoints }}</td>
+            </ng-container> -->
+            <ng-container matColumnDef="region">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>region</th>
+              <td mat-cell *matCellDef="let row">{{ row.region }}</td>
+            </ng-container>
+            <ng-container matColumnDef="city">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>city</th>
+              <td mat-cell *matCellDef="let row">{{ row.city }}</td>
+            </ng-container>
+            <ng-container matColumnDef="zone">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>zone</th>
+              <td mat-cell *matCellDef="let row">{{ row.zone }}</td>
+            </ng-container>
+            <ng-container matColumnDef="area">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>area</th>
+              <td mat-cell *matCellDef="let row">{{ row.area }}</td>
+            </ng-container>
+            <ng-container matColumnDef="subarea">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>subarea</th>
+              <td mat-cell *matCellDef="let row">{{ row.subarea }}</td>
+            </ng-container>
+            <ng-container matColumnDef="subdealer">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                subdealer
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.subdealer }}</td>
+            </ng-container>
+            <ng-container matColumnDef="dateEntry">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Insert Date
+              </th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.dateEntry }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="userName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                User Name
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.userName }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Options">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Options</th>
+              <td mat-cell *matCellDef="let row">
+                <button mat-raised-button color="warn" (click)="deleterangidProm(row.subConfigId)">
+                  Delete
+                </button>
+                <button mat-raised-button color="accent" (click)="openSubDialog('1000ms', '1000ms', row.subConfigId)">
+                  Info
+                </button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnssub"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnssub"></tr>
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">
+                No data matching the filter "{{ input.value }}"
+              </td>
+            </tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 25]" aria-label="Select page of users"></mat-paginator>
+        </div>
+      </div>
+    </mat-card>
   </mat-tab>
+
 </mat-tab-group>

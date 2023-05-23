@@ -13,6 +13,7 @@ import { Router } from "@angular/router";
 export class CalculationService {
 	url = environment.calcurl;
 	SubUrl = environment.SubDirectUrl;
+	SubUrlProm = environment.SubDirectUrlProm;
 	colorizedSubject = new BehaviorSubject<any>("accent")
 	colorized2Subject = new BehaviorSubject<any>("accent")
 	calcsubject = new BehaviorSubject<ICalc[]>([]);
@@ -22,7 +23,7 @@ export class CalculationService {
 		return this.http.post(this.url + "/AddCalc", body).pipe(
 			tap({
 				next: (x: any) => {
-					console.log(x);
+					//console.log(x);
 
 				},
 				error: (er: Error) => this.sb.open(" error: " + er.name + " " + er.message)
@@ -51,7 +52,29 @@ export class CalculationService {
 				//this.route.navigateByUrl('/Calculation')
 
 				this.route.navigateByUrl("Conditional", { skipLocationChange: true }).then(() => {
-					this.route.navigate(["Calculation"]);
+					this.route.navigate(["Conditional"]);
+				});
+
+			}
+
+		}))
+	}
+	addCalcExcelProm(excelFileData: any) {
+		return this.http.post(this.url + "/AddCalcExcelProm", { excels: excelFileData.da, ranges: excelFileData.ra, month: excelFileData.mo }).pipe(tap({
+			next: (x: any) => {
+				//	console.log(x);
+
+				var newData = [...this.calcsubject.value, x.result]
+				this.calcsubject.next(newData)
+			},
+			error: (er: Error) => this.sb.open(" File Not Accepted " + er.message)
+			,
+			complete: () => {
+				this.sb.open(" Calculation  Has Been Added Successfully");
+				//this.route.navigateByUrl('/Calculation')
+
+				this.route.navigateByUrl("Conditional", { skipLocationChange: true }).then(() => {
+					this.route.navigate(["Conditional"]);
 				});
 
 			}
@@ -89,6 +112,10 @@ export class CalculationService {
 		return this.http.get(this.SubUrl + "/Getalldirect", { params: { month } }).pipe(map((x: any) => x[0].planId
 		), switchMap((x: any) => this.GetAllDirectconfigbyid(x)))
 	}
+	GetAllDirectconfigProm(month: any) {
+		return this.http.get(this.SubUrlProm + "/GetalldirectProm", { params: { month } }).pipe(map((x: any) => x[0].planId
+		), switchMap((x: any) => this.GetAllDirectconfigbyidProm(x)))
+	}
 	GetallMonthsExcel() {
 		return this.http.get(this.SubUrl + "/Getallmonths")
 	}
@@ -111,5 +138,8 @@ export class CalculationService {
 	}
 	DataSalesf(body: any) {
 		return this.http.post(this.url + "/GetSalesform", body)
+	}
+	GetAllDirectconfigbyidProm(Id: any) {
+		return this.http.get(this.SubUrlProm + "/GetalldirectbyidProm", { params: { Id } });
 	}
 }
